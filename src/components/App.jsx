@@ -5,11 +5,12 @@ class App extends Component {
     super(props);
     this.state = {
     };
+    console.log('App Constructor');
   }
 
   render() {
     return (
-      <div className="App">
+      <div class="Home">
         <div className="title">Goal Coach</div>
       </div>
     );
