@@ -1,20 +1,37 @@
 import React, { Component } from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom';
+
+import { logUser } from '../actions';
+import { firebaseApp } from '../firebase';
+
+import Home from './Home';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-    };
-    console.log('App Constructor');
+  componentWillMount(){
+    let { store, history } = this.props;
+    firebaseApp.auth().onAuthStateChanged(user => {
+      // console.log('store', store);
+      if (user){
+        const { email } = user;
+        store.dispatch(logUser(email));
+        history.push('/');
+      }else{
+        history.replace('/signin');
+      }
+    });
   }
 
   render() {
     return (
-      <div class="Home">
-        <div className="title">Goal Coach</div>
-      </div>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/signup" component={SignUp} />
+      </Switch>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

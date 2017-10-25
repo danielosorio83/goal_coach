@@ -15,11 +15,9 @@ class SignIn extends Component {
   }
 
   signIn() {
-    console.log('SignIn', this.state);
     const { email, password } = this.state;
     firebaseApp.auth().signInWithEmailAndPassword(email, password)
       .catch(error => {
-        // console.log('Sign Up Error', error);
         this.setState({error});
       })
   }
